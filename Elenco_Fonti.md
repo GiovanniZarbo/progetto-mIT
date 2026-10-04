@@ -43,7 +43,7 @@ Le seguenti fonti testuali (di Dominio Pubblico o con MIT o CC0) sono state anal
 
 ---
 <a name="english-version"></a>
-# 🇬🇧 English Version: What is this page?
+# English Version: What is this page?
 
 This document provides a comprehensive bibliography of all the raw text sources used to procedurally generate this Italian Spellchecker Dictionary base. 
 

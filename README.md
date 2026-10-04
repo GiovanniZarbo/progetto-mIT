@@ -17,4 +17,4 @@ Questo progetto è stato fatto con l'aiuto di AI. Ho usato l'AI per farmi aiutar
 This project was made with the help of AI. I used AI to make the python scripts and partially download the online contents I used as a source, and to extract the words out of them.
 
 
-<progress value="0" max="250000"></progress> 70%
+<progress value="200000" max="250000"></progress> 70%

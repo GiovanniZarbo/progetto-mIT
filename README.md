@@ -1,7 +1,10 @@
 # dizionario-it
 
-Dizionario ortografico italiano per **Hunspell** (`it_IT.aff` / `it_IT.dic`),
-rilasciato sotto licenza **MIT** (vedi `LICENSE`).
+Dizionario ortografico italiano per **Hunspell**-
+Italian dictionary for **Hunspell*.
+
+Rilasciato sotto licenza **MIT**.
+Released under the **MIT** license.
 
 
 ## Nota
@@ -145,3 +148,7 @@ in tutte le fasi di sviluppo: correzione dei bug morfologici nel `.aff`,
 generazione del `.dic`, scrittura degli script di verifica e documentazione.
 La supervisione umana ha guidato ogni decisione, ma la maggior parte del
 lavoro tecnico è stata eseguita da un'IA.
+
+EN: This project was made with the help of AI. All of the technical work was done by
+an AI under human supervision. Thi includes `.aff`, `.dic` (writing under human request) and scripts
+to test the dictionary or scrape the free licensed sources such as old books.

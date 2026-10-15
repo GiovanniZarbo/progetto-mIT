@@ -1,4 +1,4 @@
-\*(\[Scroll to the bottom for the English version](#english-version))\*
+*([Scroll to the bottom for the English version](#english-version))*
 
 # Elenco delle Fonti del Dizionario (Progetto MIT)
 

@@ -3,6 +3,12 @@
 Dizionario ortografico italiano per **Hunspell** (`it_IT.aff` / `it_IT.dic`),
 rilasciato sotto licenza **MIT** (vedi `LICENSE`).
 
+
+## Nota
+
+Questo dizionario non è minimamente perfetto, mancano parole che si usano nel quotidiano,
+ma penso sia abbastanza sviluppato da poter essere messo su GitHub.
+
 ## Descrizione
 
 Dizionario ortografico italiano con regole morfologiche complete: coniugazioni
@@ -15,24 +21,15 @@ generate da circa 39.000 lemmi.
 | File        | Descrizione                                                        |
 |-------------|--------------------------------------------------------------------|
 | `it_IT.aff` | Regole morfologiche (flessioni, coniugazioni, alterati, prefissi). |
-| `it_IT.dic` | Lista lemmi con flag (~39.000 voci, ~725.000 forme generate).     |
+| `it_IT.dic` | Lista lemmi con flag (~39.000 voci, ~725.000 forme generate).      |
+|               in base alla lista corrente                                        |
 | `LICENSE`   | Licenza MIT.                                                       |
 | `SOURCES.md`| Registro delle fonti.                                              |
 
-## Uso
-
-```bash
-hunspell -d it_IT parola_da_controllare
-# oppure, in pipe:
-echo "ciao monda" | hunspell -d it_IT
-```
-
-I due file devono chiamarsi `it_IT.aff` e `it_IT.dic` e trovarsi nella stessa
-cartella (o in una directory di sistema di hunspell).
 
 ## Convenzione dei flag
 
-Si usa `FLAG long` (ogni flag è **esattamente** 2 caratteri). I gruppi:
+Si usa `FLAG long`, il ciò vuol dire che in questo dizionario una flag è sempre lunga 2 caretteri. I gruppi:
 
 ### Sostantivi
 

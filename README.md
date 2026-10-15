@@ -1,10 +1,8 @@
 # dizionario-it
 
-Dizionario ortografico italiano per **Hunspell**-
-Italian dictionary for **Hunspell**.
+Dizionario ortografico italiano per **Hunspell** - Italian dictionary for **Hunspell**.
 
-Rilasciato sotto licenza **MIT**.
-Released under the **MIT** license.
+Rilasciato sotto licenza **MIT**. - Released under the **MIT** license.
 
 
 ## Nota

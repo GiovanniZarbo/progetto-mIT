@@ -2,21 +2,22 @@
 
 ## Verificare il dizionario
 
-Per scoprire parole mancanti o errate, usa uno di questi due metodi nel browser:
+Per scoprire parole mancanti o errate, puoi usare uno di questi due metodi:
 
-**A) mini-Hunspell** — singolo file HTML con JS inline, zero dipendenze, ~85–90% di accuratezza.
 
-**B) [nspell](https://github.com/wooorm/nspell)** (MIT) con i nostri `.aff`/`.dic` — più accurato, ~95%, richiede un build step.
 
-Entrambi caricano `it_IT.aff` e `it_IT.dic` da questo repo (non dizionari di terzi).
+**A)** il plugin DSpellCheck su Notepad++. Basta che cambi la fonte del .dic e .aff. Devi riaprire Notepad++ dopo ogni modifica
+
+**B)** [**nspell**](https://github.com/wooorm/nspell) spell-checker compatibile con Hunspell
+
+**C)** Ci sono altri metodi in caso tu voglia cercarli
 
 ## Segnalare parole
 
 Apri una [issue](../../issues) con:
 
-- **parole mancanti** (valide ma rifiutate): lista una voce per riga, con il lemma base se possibile (es. `gattopardo` invece di `gattopardi`)
-- **parole errate** (sbagliate ma accettate): indica la parola, perché è sbagliata e — se lo sai — quale regola del `.aff` la sta generando
+* **parole mancanti**: lista il lemma base se possibile (es. `gattopardo` invece di `gattopardi`)
+* **parole errate**: indica la parola, perché è sbagliata e quale regola (se sai quale) del .aff la sta generando
 
-Non serve verificare tutte le forme flesse: basta il lemma e il flag corretto (vedi la [tabella dei flag](./README.md#convenzione-dei-flag)).
 
-Per proporre direttamente le parole nuove, modifica [`aggiunte.dic`](./aggiunte.dic) (non `it_IT.dic`) e apri una PR.
+

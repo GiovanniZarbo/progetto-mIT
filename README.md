@@ -21,8 +21,7 @@ generate da circa 39.000 lemmi.
 | File        | Descrizione                                                        |
 |-------------|--------------------------------------------------------------------|
 | `it_IT.aff` | Regole morfologiche (flessioni, coniugazioni, alterati, prefissi). |
-| `it_IT.dic` | Lista lemmi con flag (~39.000 voci, ~725.000 forme generate).      |
-|               in base alla lista corrente                                        |
+| `it_IT.dic` | Lista lemmi con flag                                               |
 | `LICENSE`   | Licenza MIT.                                                       |
 | `SOURCES.md`| Registro delle fonti.                                              |
 

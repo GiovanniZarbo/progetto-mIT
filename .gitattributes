@@ -1,0 +1,16 @@
+# Forza LF per i file di testo (compatibilità hunspell)
+* text=auto eol=lf
+
+# File del dizionario: LF obbligatorio
+*.aff text eol=lf
+*.dic text eol=lf
+
+# File di testo vari
+*.md  text eol=lf
+*.py  text eol=lf
+*.txt text eol=lf
+
+# File binari
+*.png binary
+*.jpg binary
+*.pdf binary

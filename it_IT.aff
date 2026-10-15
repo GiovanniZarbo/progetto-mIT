@@ -1,48 +1,1725 @@
+# =====================================================================
+#  it_IT.aff  —  Dizionario ortografico italiano per Hunspell
+#  Licenza: MIT (vedi LICENSE)
+#
+#  FLAG long  =>  ogni flag è ESATTAMENTE 2 caratteri.
+#
+#  Sezione 0 : direttive generali
+#  Sezione 1 : sostantivi
+#  Sezione 2 : aggettivi
+#  Sezione 3 : verbi regolari
+#  Sezione 4 : verbi irregolari
+#  Sezione 5 : alterati (da concatenare al flag del sostantivo)
+#  Sezione 6 : prefissi
+#
+#  NOTA sul modello SFX: la condizione (4° campo) viene valutata sulla
+#  parola PRIMA dello stripping. Lo strip rimuove la parte finale
+#  indicata e l'add vi riaggiunge la nuova desinenza.
+#  "0" nello strip o nell'add significa "niente".
+# =====================================================================
+
 SET UTF-8
+FLAG long
 
-TRY aeinorstlcumdpbgvfhqzxjkyw
+# Caratteri considerati parte della parola (apostrofo + vocali accentate)
+WORDCHARS àèéìòùÀÈÉÌÒÙ'
 
-KEY qwertyuiop|asdfghjkl|zxcvbnm
+# Caratteri simili per i suggerimenti (raggruppamento accenti)
+MAP 7
+MAP aàáä
+MAP eèéë
+MAP iìíï
+MAP oòóö
+MAP uùúü
+MAP cç
+MAP nñ
 
-REP 41
-REP a ha
-REP e è
-REP o ho
-REP anno hanno
-REP ai hai
-REP qual'è qual è
-REP qual'era qual era
-REP daccordo d'accordo
-REP apposto a posto
-REP aposto a posto
-REP affianco a fianco
-REP avvolte a volte
-REP tutt'ora tuttora
-REP fin'ora finora
-REP pultroppo purtroppo
-REP propietà proprietà
-REP propio proprio
-REP scentifico scientifico
-REP scenza scienza
-REP coscenza coscienza
-REP un'altro un altro
-REP po po'
-REP pò po'
-REP perchè perché
-REP poichè poiché
-REP affinchè affinché
-REP ne né
-REP se sé
-REP da dà
-REP fà fa
-REP accellerare accelerare
-REP obbiettivo obiettivo
-REP familia famiglia
-REP aquisire acquisire
-REP squola scuola
-REP c'èntra c'entra
-REP centra c'entra
-REP in dietro indietro
-REP a bastanza abbastanza
-REP sufficente sufficiente
-REP efficente efficiente
+# Ordine di frequenza (per i suggerimenti)
+TRY eaiotlnsrcdmupgvbfhqzwyxjkàèéìòù
+
+# Normalizza apostrofi tipografici in input
+ICONV 3
+ICONV ’ '
+ICONV ` '
+ICONV ´ '
+
+# Correzioni di tastiera comuni (REP)
+REP 18
+REP e' è
+REP a' à
+REP o' ò
+REP u' ù
+REP i' ì
+REP E' È
+REP A' À
+REP O' Ò
+REP U' Ù
+REP I' Ì
+REP puo può
+REP perche perché
+REP piu più
+REP gia già
+REP cosi così
+REP cioe cioè
+REP nè né
+REP poiche poiché
+
+# =====================================================================
+# 1. SOSTANTIVI
+# =====================================================================
+
+# -o regolare : libro -> libri
+SFX NO Y 1
+SFX NO o i .
+
+# -a regolare con raddoppiamento h davanti a c/g : casa -> case, amica -> amiche
+SFX NA Y 2
+SFX NA a e [^cg]a
+SFX NA a he [cg]a
+
+# -e regolare : fiume -> fiumi, nome -> nomi
+SFX NE Y 1
+SFX NE e i .
+
+# -a neutro (greco -ma) : problema -> problemi
+SFX MA Y 1
+SFX MA a i .
+
+# -o irregolare in -i : mano -> mani
+SFX FO Y 1
+SFX FO o i .
+
+# -io -> -i : dizionario -> dizionari, bacio -> baci
+SFX NU Y 1
+SFX NU io i .
+
+# -co/-go -> -chi/-che : lago -> laghi, parco -> parchi
+SFX NK Y 1
+SFX NK o hi [cg]o
+
+# -co/-go -> -i (medico -> medici)
+SFX NM Y 1
+SFX NM o i [cg]o
+
+# -cia dopo vocale -> -cie : camicia -> camicie, farmacia -> farmacie, bugia -> bugie
+SFX NC Y 1
+SFX NC ia ie [aeiou][cg]ia
+
+# -cia dopo consonante -> -ce (in -ggia/-scia) : pioggia -> piogge, provincia -> province
+SFX NG Y 1
+SFX NG ia e [^aeiou][cg]ia
+
+# -o invariante nel femminile : braccio -> braccia, uovo -> uova, dito -> dita
+SFX NV Y 1
+SFX NV o a .
+
+# -a invariante nel tema (m/f) : collega -> colleghi/colleghe, cantante -> cantanti/canti
+SFX NW Y 4
+SFX NW a hi [cg]a
+SFX NW a he [cg]a
+SFX NW a i [^cg]a
+SFX NW a e [^cg]a
+
+# -a m/f separato : giornalista -> giornalisti/giornaliste
+SFX NZ Y 2
+SFX NZ a i .
+SFX NZ a e .
+
+# -e (carnefice, senatrice) -> -i
+SFX NX Y 1
+SFX NX e i .
+
+# -trice : attrice -> attrici, direttrice -> direttrici
+SFX NY Y 1
+SFX NY ce ci .
+
+# invariabile : re -> re
+SFX NI Y 1
+SFX NI 0 0 .
+
+# =====================================================================
+# 2. AGGETTIVI
+# =====================================================================
+
+# -o regolare : buono -> buona/buoni/buone
+SFX A1 Y 3
+SFX A1 o a .
+SFX A1 o i .
+SFX A1 o e .
+
+# -e regolare : forte -> forti, veloce -> veloci
+SFX A2 Y 1
+SFX A2 e i .
+
+# -co : bianco -> bianca/bianchi/bianche
+SFX AK Y 3
+SFX AK o a co
+SFX AK o hi co
+SFX AK o he co
+
+# -go : largo -> larga/larghi/larghe
+SFX AG Y 3
+SFX AG o a go
+SFX AG o hi go
+SFX AG o he go
+
+# -co irregolare nel femminile : frenetico -> frenetica/frenetici/frenetiche
+SFX AM Y 3
+SFX AM o a co
+SFX AM o i co
+SFX AM o he co
+
+# bello -> bella/belli/belle e bel/bei/begli
+SFX AB Y 6
+SFX AB o a .
+SFX AB o e .
+SFX AB o i .
+SFX AB ello el o
+SFX AB ello ei o
+SFX AB ello egli o
+
+# invariabile : blu -> blu
+SFX AI Y 1
+SFX AI 0 0 .
+
+# superlativo assoluto : alto -> altissimo/altissima/altissimi/altissime
+SFX ST Y 8
+SFX ST o issimo o
+SFX ST o issima o
+SFX ST o issimi o
+SFX ST o issime o
+SFX ST e issimo e
+SFX ST e issima e
+SFX ST e issimi e
+SFX ST e issime e
+
+# avverbio in -mente : veloce -> velocemente, lento -> lentamente
+SFX ME Y 2
+SFX ME 0 mente e
+SFX ME o amente o
+
+# =====================================================================
+# 3. VERBI REGOLARI
+# =====================================================================
+
+# --- 1ª coniugazione -are : amare/V1 ---------------------------------
+# Presente: amo ami ama amiamo amate amano
+# Congiuntivo pres.: ami amiamo amiate amino
+# Imperfetto: amavo...
+# Passato remoto: amai amasti amò amammo amaste amarono
+SFX V1 Y 41
+SFX V1 are o are
+SFX V1 are a are
+SFX V1 are i are
+SFX V1 are iamo are
+SFX V1 are ate are
+SFX V1 are ano are
+SFX V1 are ino are
+SFX V1 are iate are
+SFX V1 are avo are
+SFX V1 are avi are
+SFX V1 are ava are
+SFX V1 are avamo are
+SFX V1 are avate are
+SFX V1 are avano are
+SFX V1 are ai are
+SFX V1 are asti are
+SFX V1 are aste are
+SFX V1 are ammo are
+SFX V1 are assi are
+SFX V1 are asse are
+SFX V1 are assimo are
+SFX V1 are assero are
+SFX V1 are ando are
+SFX V1 are ato/A1 are
+SFX V1 are ata/A1 are
+SFX V1 are ati/A1 are
+SFX V1 are ate/A1 are
+SFX V1 are erò are
+SFX V1 are erai are
+SFX V1 are erà are
+SFX V1 are eremo are
+SFX V1 are erete are
+SFX V1 are eranno are
+SFX V1 are erei are
+SFX V1 are eresti are
+SFX V1 are erebbe are
+SFX V1 are eremmo are
+SFX V1 are ereste are
+SFX V1 are erebbero are
+SFX V1 are ò are
+SFX V1 are arono are
+
+# --- 2ª coniugazione -ere : temere/V2 --------------------------------
+SFX V2 Y 45
+SFX V2 ere o ere
+SFX V2 ere i ere
+SFX V2 ere e ere
+SFX V2 ere iamo ere
+SFX V2 ere ete ere
+SFX V2 ere ono ere
+SFX V2 ere a ere
+SFX V2 ere iate ere
+SFX V2 ere ano ere
+SFX V2 ere uto/A1 ere
+SFX V2 ere uta/A1 ere
+SFX V2 ere uti/A1 ere
+SFX V2 ere ute/A1 ere
+SFX V2 ere endo ere
+SFX V2 ere evo ere
+SFX V2 ere evi ere
+SFX V2 ere eva ere
+SFX V2 ere evamo ere
+SFX V2 ere evate ere
+SFX V2 ere evano ere
+SFX V2 ere etti ere
+SFX V2 ere ei ere
+SFX V2 ere esti ere
+SFX V2 ere ette ere
+SFX V2 ere é ere
+SFX V2 ere emmo ere
+SFX V2 ere este ere
+SFX V2 ere ettero ere
+SFX V2 ere erono ere
+SFX V2 ere essi ere
+SFX V2 ere esse ere
+SFX V2 ere essimo ere
+SFX V2 ere essero ere
+SFX V2 ere erò ere
+SFX V2 ere erai ere
+SFX V2 ere erà ere
+SFX V2 ere eremo ere
+SFX V2 ere erete ere
+SFX V2 ere eranno ere
+SFX V2 ere erei ere
+SFX V2 ere eresti ere
+SFX V2 ere erebbe ere
+SFX V2 ere eremmo ere
+SFX V2 ere ereste ere
+SFX V2 ere erebbero ere
+
+# --- 3ª coniugazione -ire : partire/V3, dormire/V3 -------------------
+SFX V3 Y 42
+SFX V3 ire o ire
+SFX V3 ire i ire
+SFX V3 ire e ire
+SFX V3 ire iamo ire
+SFX V3 ire ite ire
+SFX V3 ire ono ire
+SFX V3 ire a ire
+SFX V3 ire iate ire
+SFX V3 ire ano ire
+SFX V3 ire ito/A1 ire
+SFX V3 ire ita/A1 ire
+SFX V3 ire iti/A1 ire
+SFX V3 ire ite/A1 ire
+SFX V3 ire endo ire
+SFX V3 ire ivo ire
+SFX V3 ire ivi ire
+SFX V3 ire iva ire
+SFX V3 ire ivamo ire
+SFX V3 ire ivate ire
+SFX V3 ire ivano ire
+SFX V3 ire ii ire
+SFX V3 ire isti ire
+SFX V3 ire ì ire
+SFX V3 ire immo ire
+SFX V3 ire iste ire
+SFX V3 ire irono ire
+SFX V3 ire issi ire
+SFX V3 ire isse ire
+SFX V3 ire issimo ire
+SFX V3 ire issero ire
+SFX V3 ire irò ire
+SFX V3 ire irai ire
+SFX V3 ire irà ire
+SFX V3 ire iremo ire
+SFX V3 ire irete ire
+SFX V3 ire iranno ire
+SFX V3 ire irei ire
+SFX V3 ire iresti ire
+SFX V3 ire irebbe ire
+SFX V3 ire iremmo ire
+SFX V3 ire ireste ire
+SFX V3 ire irebbero ire
+
+# --- -ire "isco" : capire/VI, finire/VI ------------------------------
+SFX VI Y 42
+SFX VI ire isco ire
+SFX VI ire isci ire
+SFX VI ire isce ire
+SFX VI ire iscono ire
+SFX VI ire isca ire
+SFX VI ire iscano ire
+SFX VI ire iamo ire
+SFX VI ire ite ire
+SFX VI ire iate ire
+SFX VI ire ito/A1 ire
+SFX VI ire ita/A1 ire
+SFX VI ire iti/A1 ire
+SFX VI ire ite/A1 ire
+SFX VI ire endo ire
+SFX VI ire ivo ire
+SFX VI ire ivi ire
+SFX VI ire iva ire
+SFX VI ire ivamo ire
+SFX VI ire ivate ire
+SFX VI ire ivano ire
+SFX VI ire ii ire
+SFX VI ire isti ire
+SFX VI ire ì ire
+SFX VI ire immo ire
+SFX VI ire iste ire
+SFX VI ire irono ire
+SFX VI ire issi ire
+SFX VI ire isse ire
+SFX VI ire issimo ire
+SFX VI ire issero ire
+SFX VI ire irò ire
+SFX VI ire irai ire
+SFX VI ire irà ire
+SFX VI ire iremo ire
+SFX VI ire irete ire
+SFX VI ire iranno ire
+SFX VI ire irei ire
+SFX VI ire iresti ire
+SFX VI ire irebbe ire
+SFX VI ire iremmo ire
+SFX VI ire ireste ire
+SFX VI ire irebbero ire
+
+# --- -are con inserto h (care/gare) : giocare/VA ---------------------
+SFX VA Y 41
+SFX VA are o are
+SFX VA are hi are
+SFX VA are a are
+SFX VA are hiamo are
+SFX VA are ate are
+SFX VA are ano are
+SFX VA are hino are
+SFX VA are hiate are
+SFX VA are avo are
+SFX VA are avi are
+SFX VA are ava are
+SFX VA are avamo are
+SFX VA are avate are
+SFX VA are avano are
+SFX VA are ai are
+SFX VA are asti are
+SFX VA are aste are
+SFX VA are ammo are
+SFX VA are assi are
+SFX VA are asse are
+SFX VA are assimo are
+SFX VA are assero are
+SFX VA are ando are
+SFX VA are ato/A1 are
+SFX VA are ata/A1 are
+SFX VA are ati/A1 are
+SFX VA are ate/A1 are
+SFX VA are ò are
+SFX VA are arono are
+SFX VA are herò are
+SFX VA are herai are
+SFX VA are herà are
+SFX VA are heremo are
+SFX VA are herete are
+SFX VA are heranno are
+SFX VA are herei are
+SFX VA are heresti are
+SFX VA are herebbe are
+SFX VA are heremmo are
+SFX VA are hereste are
+SFX VA are herebbero are
+
+# --- -iare (mangiare, lasciare) : mangiare/VB ------------------------
+# NB: lo strip "are" preserva la i davanti alle desinenze che la vogliono
+#     (mangi, mangierò...); lo strip "iare" l'assorbe (mangiamo, mangiate...).
+SFX VB Y 40
+SFX VB are o are
+SFX VB are 0 are
+SFX VB are a are
+SFX VB iare iamo iare
+SFX VB iare ate iare
+SFX VB iare ino iare
+SFX VB iare iano iare
+SFX VB are avo are
+SFX VB are avi are
+SFX VB are ava are
+SFX VB are avamo are
+SFX VB are avate are
+SFX VB are avano are
+SFX VB are ai are
+SFX VB are asti are
+SFX VB are ò are
+SFX VB are ammo are
+SFX VB are aste are
+SFX VB are arono are
+SFX VB are assi are
+SFX VB are asse are
+SFX VB are assimo are
+SFX VB are assero are
+SFX VB are ato/A1 are
+SFX VB are ata/A1 are
+SFX VB are ati/A1 are
+SFX VB are ate/A1 are
+SFX VB are ando are
+SFX VB are erò are
+SFX VB are erai are
+SFX VB are erà are
+SFX VB are eremo are
+SFX VB are erete are
+SFX VB are eranno are
+SFX VB are erei are
+SFX VB are eresti are
+SFX VB are erebbe are
+SFX VB are eremmo are
+SFX VB are ereste are
+SFX VB are erebbero are
+
+# --- -iare con i sola (inviare, sciare) : inviare/VC -----------------
+SFX VC Y 41
+SFX VC are o are
+SFX VC are i are
+SFX VC are a are
+SFX VC are amo are
+SFX VC are ate are
+SFX VC are ano are
+SFX VC are iate are
+SFX VC are ino are
+SFX VC are avo are
+SFX VC are avi are
+SFX VC are ava are
+SFX VC are avamo are
+SFX VC are avate are
+SFX VC are avano are
+SFX VC are ai are
+SFX VC are asti are
+SFX VC are ò are
+SFX VC are ammo are
+SFX VC are aste are
+SFX VC are arono are
+SFX VC are assi are
+SFX VC are asse are
+SFX VC are assimo are
+SFX VC are assero are
+SFX VC are ato/A1 are
+SFX VC are ata/A1 are
+SFX VC are ati/A1 are
+SFX VC are ate/A1 are
+SFX VC are ando are
+SFX VC are erò are
+SFX VC are erai are
+SFX VC are erà are
+SFX VC are eremo are
+SFX VC are erete are
+SFX VC are eranno are
+SFX VC are erei are
+SFX VC are eresti are
+SFX VC are erebbe are
+SFX VC are eremmo are
+SFX VC are ereste are
+SFX VC are erebbero are
+
+# --- riflessivo clitico : lavare/RF ----------------------------------
+SFX RF Y 14
+SFX RF e si e
+SFX RF e mi e
+SFX RF e ti e
+SFX RF e ci e
+SFX RF e vi e
+SFX RF are andosi are
+SFX RF are andomi are
+SFX RF are andoti are
+SFX RF are andoci are
+SFX RF are andovi are
+SFX RF are atosi are
+SFX RF are atasi are
+SFX RF are atisi are
+SFX RF are atesi are
+
+# =====================================================================
+# 4. VERBI IRREGOLARI
+# =====================================================================
+
+# --- avere/H1  (ho, hai, ha come voci piene nel .dic) ---------------
+SFX H1 Y 39
+SFX H1 ere ete ere
+SFX H1 ere evo ere
+SFX H1 ere evi ere
+SFX H1 ere eva ere
+SFX H1 ere evamo ere
+SFX H1 ere evate ere
+SFX H1 ere evano ere
+SFX H1 ere esti ere
+SFX H1 ere emmo ere
+SFX H1 ere este ere
+SFX H1 ere essi ere
+SFX H1 ere esse ere
+SFX H1 ere essimo ere
+SFX H1 ere essero ere
+SFX H1 ere uto/A1 ere
+SFX H1 ere uta/A1 ere
+SFX H1 ere uti/A1 ere
+SFX H1 ere ute/A1 ere
+SFX H1 ere endo ere
+SFX H1 ere rò ere
+SFX H1 ere rai ere
+SFX H1 ere rà ere
+SFX H1 ere remo ere
+SFX H1 ere rete ere
+SFX H1 ere ranno ere
+SFX H1 ere rei ere
+SFX H1 ere resti ere
+SFX H1 ere rebbe ere
+SFX H1 ere remmo ere
+SFX H1 ere reste ere
+SFX H1 ere rebbero ere
+SFX H1 vere bbiamo vere
+SFX H1 vere bbiate vere
+SFX H1 vere bbia vere
+SFX H1 vere bbiano vere
+SFX H1 avere hanno avere
+SFX H1 avere ebbi avere
+SFX H1 avere ebbe avere
+SFX H1 avere ebbero avere
+
+# --- fare/F1 ---------------------------------------------------------
+SFX F1 Y 39
+SFX F1 are a are
+SFX F1 are ai are
+SFX F1 are anno are
+SFX F1 are ate are
+SFX F1 are accia are
+SFX F1 are accio are
+SFX F1 are acciamo are
+SFX F1 are acciate are
+SFX F1 are acciano are
+SFX F1 are acevo are
+SFX F1 are acevi are
+SFX F1 are aceva are
+SFX F1 are acevamo are
+SFX F1 are acevate are
+SFX F1 are acevano are
+SFX F1 are eci are
+SFX F1 are acesti are
+SFX F1 are ece are
+SFX F1 are acemmo are
+SFX F1 are aceste are
+SFX F1 are ecero are
+SFX F1 are acessi are
+SFX F1 are acesse are
+SFX F1 are acessimo are
+SFX F1 are acessero are
+SFX F1 are atto/A1 are
+SFX F1 are acendo are
+SFX F1 are arò are
+SFX F1 are arai are
+SFX F1 are arà are
+SFX F1 are aremo are
+SFX F1 are arete are
+SFX F1 are aranno are
+SFX F1 are arei are
+SFX F1 are aresti are
+SFX F1 are arebbe are
+SFX F1 are aremmo are
+SFX F1 are areste are
+SFX F1 are arebbero are
+
+# --- dare/D1 ---------------------------------------------------------
+SFX D1 Y 39
+SFX D1 are o are
+SFX D1 are ai are
+SFX D1 are à are
+SFX D1 are iamo are
+SFX D1 are ate are
+SFX D1 are anno are
+SFX D1 are ia are
+SFX D1 are iate are
+SFX D1 are iano are
+SFX D1 are avo are
+SFX D1 are avi are
+SFX D1 are ava are
+SFX D1 are avamo are
+SFX D1 are avate are
+SFX D1 are avano are
+SFX D1 are iedi are
+SFX D1 are esti are
+SFX D1 are iede are
+SFX D1 are emmo are
+SFX D1 are este are
+SFX D1 are iedero are
+SFX D1 are essi are
+SFX D1 are esse are
+SFX D1 are essimo are
+SFX D1 are essero are
+SFX D1 are ato/A1 are
+SFX D1 are ando are
+SFX D1 are arò are
+SFX D1 are arai are
+SFX D1 are arà are
+SFX D1 are aremo are
+SFX D1 are arete are
+SFX D1 are aranno are
+SFX D1 are arei are
+SFX D1 are aresti are
+SFX D1 are arebbe are
+SFX D1 are aremmo are
+SFX D1 are areste are
+SFX D1 are arebbero are
+
+# --- stare/T1, sovrastare/T1 ----------------------------------------
+SFX T1 Y 39
+SFX T1 are o are
+SFX T1 are ai are
+SFX T1 are a are
+SFX T1 are iamo are
+SFX T1 are ate are
+SFX T1 are anno are
+SFX T1 are ia are
+SFX T1 are iate are
+SFX T1 are iano are
+SFX T1 are avo are
+SFX T1 are avi are
+SFX T1 are ava are
+SFX T1 are avamo are
+SFX T1 are avate are
+SFX T1 are avano are
+SFX T1 are etti are
+SFX T1 are esti are
+SFX T1 are ette are
+SFX T1 are emmo are
+SFX T1 are este are
+SFX T1 are ettero are
+SFX T1 are essi are
+SFX T1 are esse are
+SFX T1 are essimo are
+SFX T1 are essero are
+SFX T1 are ato/A1 are
+SFX T1 are ando are
+SFX T1 are arò are
+SFX T1 are arai are
+SFX T1 are arà are
+SFX T1 are aremo are
+SFX T1 are arete are
+SFX T1 are aranno are
+SFX T1 are arei are
+SFX T1 are aresti are
+SFX T1 are arebbe are
+SFX T1 are aremmo are
+SFX T1 are areste are
+SFX T1 are arebbero are
+
+# --- potere/P1  (puoi, può come voci piene nel .dic) ----------------
+SFX P1 Y 42
+SFX P1 otere osso otere
+SFX P1 otere ossa otere
+SFX P1 otere ossano otere
+SFX P1 otere ossiamo otere
+SFX P1 otere ossiate otere
+SFX P1 ere ete ere
+SFX P1 ere evo ere
+SFX P1 ere evi ere
+SFX P1 ere eva ere
+SFX P1 ere evamo ere
+SFX P1 ere evate ere
+SFX P1 ere evano ere
+SFX P1 ere ei ere
+SFX P1 ere é ere
+SFX P1 ere etti ere
+SFX P1 ere esti ere
+SFX P1 ere ette ere
+SFX P1 ere emmo ere
+SFX P1 ere este ere
+SFX P1 ere ettero ere
+SFX P1 ere erono ere
+SFX P1 ere essi ere
+SFX P1 ere esse ere
+SFX P1 ere essimo ere
+SFX P1 ere essero ere
+SFX P1 ere uto/A1 ere
+SFX P1 ere uta/A1 ere
+SFX P1 ere uti/A1 ere
+SFX P1 ere ute/A1 ere
+SFX P1 ere endo ere
+SFX P1 tere trò tere
+SFX P1 tere trai tere
+SFX P1 tere trà tere
+SFX P1 tere tremo tere
+SFX P1 tere trete tere
+SFX P1 tere tranno tere
+SFX P1 ere rei ere
+SFX P1 ere resti ere
+SFX P1 ere rebbe ere
+SFX P1 ere remmo ere
+SFX P1 ere reste ere
+SFX P1 ere rebbero ere
+
+# --- volere/W1  (voglio, vuoi, vuole, vogliono derivati) ------------
+SFX W1 Y 42
+SFX W1 olere oglio olere
+SFX W1 olere uoi olere
+SFX W1 olere uole olere
+SFX W1 olere ogliono olere
+SFX W1 olere ogliamo olere
+SFX W1 olere ogliate olere
+SFX W1 olere oglia olere
+SFX W1 olere ogliano olere
+SFX W1 ere ete ere
+SFX W1 ere evo ere
+SFX W1 ere evi ere
+SFX W1 ere eva ere
+SFX W1 ere evamo ere
+SFX W1 ere evate ere
+SFX W1 ere evano ere
+SFX W1 ere li ere
+SFX W1 ere esti ere
+SFX W1 ere le ere
+SFX W1 ere emmo ere
+SFX W1 ere este ere
+SFX W1 ere lerono ere
+SFX W1 ere essi ere
+SFX W1 ere esse ere
+SFX W1 ere essimo ere
+SFX W1 ere essero ere
+SFX W1 ere uto/A1 ere
+SFX W1 ere uta/A1 ere
+SFX W1 ere uti/A1 ere
+SFX W1 ere ute/A1 ere
+SFX W1 ere endo ere
+SFX W1 lere rrò lere
+SFX W1 lere rrai lere
+SFX W1 lere rrà lere
+SFX W1 lere rremo lere
+SFX W1 lere rrete lere
+SFX W1 lere rranno lere
+SFX W1 lere rrei lere
+SFX W1 lere rresti lere
+SFX W1 lere rrebbe lere
+SFX W1 lere rremmo lere
+SFX W1 lere rreste lere
+SFX W1 lere rrebbero lere
+
+# --- dovere/O1 -------------------------------------------------------
+SFX O1 Y 45
+SFX O1 ere ete ere
+SFX O1 ere evo ere
+SFX O1 ere evi ere
+SFX O1 ere eva ere
+SFX O1 ere evamo ere
+SFX O1 ere evate ere
+SFX O1 ere evano ere
+SFX O1 ere ei ere
+SFX O1 ere etti ere
+SFX O1 ere esti ere
+SFX O1 ere é ere
+SFX O1 ere ette ere
+SFX O1 ere emmo ere
+SFX O1 ere este ere
+SFX O1 ere ettero ere
+SFX O1 ere essi ere
+SFX O1 ere esse ere
+SFX O1 ere essimo ere
+SFX O1 ere essero ere
+SFX O1 ere uto/A1 ere
+SFX O1 ere uta/A1 ere
+SFX O1 ere uti/A1 ere
+SFX O1 ere ute/A1 ere
+SFX O1 ere endo ere
+SFX O1 ere rò ere
+SFX O1 ere rai ere
+SFX O1 ere rà ere
+SFX O1 ere remo ere
+SFX O1 ere rete ere
+SFX O1 ere ranno ere
+SFX O1 ere rei ere
+SFX O1 ere resti ere
+SFX O1 ere rebbe ere
+SFX O1 ere remmo ere
+SFX O1 ere reste ere
+SFX O1 ere rebbero ere
+SFX O1 overe evo overe
+SFX O1 overe evi overe
+SFX O1 overe eve overe
+SFX O1 overe evono overe
+SFX O1 overe ebbo overe
+SFX O1 overe obbiamo overe
+SFX O1 overe obbiate overe
+SFX O1 overe ebba overe
+SFX O1 overe ebbano overe
+
+# --- venire/X1, avvenire/X1, convenire/X1, divenire/X1 --------------
+SFX X1 Y 44
+SFX X1 ire gono ire
+SFX X1 ire go ire
+SFX X1 ire ga ire
+SFX X1 ire gano ire
+SFX X1 ire ne ire
+SFX X1 ire ni ire
+SFX X1 ire nero ire
+SFX X1 ire immo ire
+SFX X1 ire iste ire
+SFX X1 ire iamo ire
+SFX X1 ire ite ire
+SFX X1 ire iate ire
+SFX X1 ire ivo ire
+SFX X1 ire ivi ire
+SFX X1 ire iva ire
+SFX X1 ire ivamo ire
+SFX X1 ire ivate ire
+SFX X1 ire ivano ire
+SFX X1 ire ii ire
+SFX X1 ire isti ire
+SFX X1 ire ì ire
+SFX X1 ire issi ire
+SFX X1 ire isse ire
+SFX X1 ire issimo ire
+SFX X1 ire issero ire
+SFX X1 ire uto/A1 ire
+SFX X1 ire uta/A1 ire
+SFX X1 ire uti/A1 ire
+SFX X1 ire ute/A1 ire
+SFX X1 ire endo ire
+SFX X1 enire iene enire
+SFX X1 enire ieni enire
+SFX X1 nire rrò nire
+SFX X1 nire rrai nire
+SFX X1 nire rrà nire
+SFX X1 nire rremo nire
+SFX X1 nire rrete nire
+SFX X1 nire rranno nire
+SFX X1 nire rrei nire
+SFX X1 nire rresti nire
+SFX X1 nire rrebbe nire
+SFX X1 nire rremmo nire
+SFX X1 nire rreste nire
+SFX X1 nire rrebbero nire
+
+# --- tenere/K1, mantenere/K1, ottenere/K1, sostenere/K1 -------------
+SFX K1 Y 42
+SFX K1 ere go ere
+SFX K1 ere gono ere
+SFX K1 ere ga ere
+SFX K1 ere gano ere
+SFX K1 ere iamo ere
+SFX K1 ere ete ere
+SFX K1 ere iate ere
+SFX K1 ere evo ere
+SFX K1 ere evi ere
+SFX K1 ere eva ere
+SFX K1 ere evamo ere
+SFX K1 ere evate ere
+SFX K1 ere evano ere
+SFX K1 ere ni ere
+SFX K1 ere ne ere
+SFX K1 ere nero ere
+SFX K1 ere esti ere
+SFX K1 ere emmo ere
+SFX K1 ere este ere
+SFX K1 ere essi ere
+SFX K1 ere esse ere
+SFX K1 ere essimo ere
+SFX K1 ere essero ere
+SFX K1 ere uto/A1 ere
+SFX K1 ere uta/A1 ere
+SFX K1 ere uti/A1 ere
+SFX K1 ere ute/A1 ere
+SFX K1 ere endo ere
+SFX K1 enere iene enere
+SFX K1 enere ieni enere
+SFX K1 nere rrò nere
+SFX K1 nere rrai nere
+SFX K1 nere rrà nere
+SFX K1 nere rremo nere
+SFX K1 nere rrete nere
+SFX K1 nere rranno nere
+SFX K1 nere rrei nere
+SFX K1 nere rresti nere
+SFX K1 nere rrebbe nere
+SFX K1 nere rremmo nere
+SFX K1 nere rreste nere
+SFX K1 nere rrebbero nere
+
+# --- bere/B1  +  bev/B2 ----------------------------------------------
+# B1: futuro/condizionale (berò -> berrò)
+SFX B1 Y 12
+SFX B1 re rrò re
+SFX B1 re rrai re
+SFX B1 re rrà re
+SFX B1 re rremo re
+SFX B1 re rrete re
+SFX B1 re rranno re
+SFX B1 re rrei re
+SFX B1 re rresti re
+SFX B1 re rrebbe re
+SFX B1 re rremmo re
+SFX B1 re rreste re
+SFX B1 re rrebbero re
+
+# B2: resto della coniugazione dallo stem "bev"
+SFX B2 Y 32
+SFX B2 0 o .
+SFX B2 0 i .
+SFX B2 0 e .
+SFX B2 0 ono .
+SFX B2 0 iamo .
+SFX B2 0 ete .
+SFX B2 0 iate .
+SFX B2 0 a .
+SFX B2 0 ano .
+SFX B2 0 evo .
+SFX B2 0 evi .
+SFX B2 0 eva .
+SFX B2 0 evamo .
+SFX B2 0 evate .
+SFX B2 0 evano .
+SFX B2 0 vi .
+SFX B2 0 ve .
+SFX B2 0 etti .
+SFX B2 0 esti .
+SFX B2 0 emmo .
+SFX B2 0 este .
+SFX B2 0 ettero .
+SFX B2 0 vero .
+SFX B2 0 essi .
+SFX B2 0 esse .
+SFX B2 0 essimo .
+SFX B2 0 essero .
+SFX B2 0 uto/A1 .
+SFX B2 0 uta/A1 .
+SFX B2 0 uti/A1 .
+SFX B2 0 ute/A1 .
+SFX B2 0 endo .
+
+# --- dire/I1  (diciamo, dite, dissi, detto, dirò...) ----------------
+SFX I1 Y 39
+SFX I1 ire ico ire
+SFX I1 ire ici ire
+SFX I1 ire ice ire
+SFX I1 ire icono ire
+SFX I1 ire iciamo ire
+SFX I1 re te re
+SFX I1 ire ica ire
+SFX I1 ire iciate ire
+SFX I1 ire icano ire
+SFX I1 ire icevo ire
+SFX I1 ire icevi ire
+SFX I1 ire iceva ire
+SFX I1 ire icevamo ire
+SFX I1 ire icevate ire
+SFX I1 ire icevano ire
+SFX I1 ire issi ire
+SFX I1 ire icesti ire
+SFX I1 ire isse ire
+SFX I1 ire icemmo ire
+SFX I1 ire iceste ire
+SFX I1 ire issero ire
+SFX I1 ire icessi ire
+SFX I1 ire icesse ire
+SFX I1 ire icessimo ire
+SFX I1 ire icessero ire
+SFX I1 ire etto/A1 ire
+SFX I1 ire icendo ire
+SFX I1 re rò re
+SFX I1 re rai re
+SFX I1 re rà re
+SFX I1 re remo re
+SFX I1 re rete re
+SFX I1 re ranno re
+SFX I1 re rei re
+SFX I1 re resti re
+SFX I1 re rebbe re
+SFX I1 re remmo re
+SFX I1 re reste re
+SFX I1 re rebbero re
+
+# --- andare/AN  +  vad/AW  (vai, va, vanno come voci piene nel .dic) -
+# AN: forme regolari sul tema "and-"
+SFX AN Y 36
+SFX AN are iamo are
+SFX AN are ate are
+SFX AN are iate are
+SFX AN are avo are
+SFX AN are avi are
+SFX AN are ava are
+SFX AN are avamo are
+SFX AN are avate are
+SFX AN are avano are
+SFX AN are ai are
+SFX AN are asti are
+SFX AN are ò are
+SFX AN are ammo are
+SFX AN are aste are
+SFX AN are arono are
+SFX AN are assi are
+SFX AN are asse are
+SFX AN are assimo are
+SFX AN are assero are
+SFX AN are ato/A1 are
+SFX AN are ata/A1 are
+SFX AN are ati/A1 are
+SFX AN are ate/A1 are
+SFX AN are ando are
+SFX AN are rò are
+SFX AN are rai are
+SFX AN are rà are
+SFX AN are remo are
+SFX AN are rete are
+SFX AN are ranno are
+SFX AN are rei are
+SFX AN are resti are
+SFX AN are rebbe are
+SFX AN are remmo are
+SFX AN are reste are
+SFX AN are rebbero are
+
+# AW: uniche forme davvero derivabili dallo stem "vad-"
+SFX AW Y 3
+SFX AW 0 o .
+SFX AW 0 a .
+SFX AW 0 ano .
+
+# --- vedere/D2, prevedere/D2, rivedere/D2 ----------------------------
+SFX D2 Y 47
+SFX D2 ere o ere
+SFX D2 ere i ere
+SFX D2 ere e ere
+SFX D2 ere iamo ere
+SFX D2 ere ete ere
+SFX D2 ere ono ere
+SFX D2 ere a ere
+SFX D2 ere iate ere
+SFX D2 ere ano ere
+SFX D2 ere evo ere
+SFX D2 ere evi ere
+SFX D2 ere eva ere
+SFX D2 ere evamo ere
+SFX D2 ere evate ere
+SFX D2 ere evano ere
+SFX D2 ere etti ere
+SFX D2 ere ei ere
+SFX D2 ere esti ere
+SFX D2 ere ette ere
+SFX D2 ere emmo ere
+SFX D2 ere este ere
+SFX D2 ere ettero ere
+SFX D2 ere essi ere
+SFX D2 ere esse ere
+SFX D2 ere essimo ere
+SFX D2 ere essero ere
+SFX D2 ere uto/A1 ere
+SFX D2 ere uta/A1 ere
+SFX D2 ere uti/A1 ere
+SFX D2 ere ute/A1 ere
+SFX D2 ere endo ere
+SFX D2 ere rò ere
+SFX D2 ere rai ere
+SFX D2 ere rà ere
+SFX D2 ere remo ere
+SFX D2 ere rete ere
+SFX D2 ere ranno ere
+SFX D2 ere rei ere
+SFX D2 ere resti ere
+SFX D2 ere rebbe ere
+SFX D2 ere remmo ere
+SFX D2 ere reste ere
+SFX D2 ere rebbero ere
+SFX D2 edere idi edere
+SFX D2 edere ide edere
+SFX D2 edere idero edere
+SFX D2 edere isto/A1 edere
+
+# --- morire/M1  +  muoio/MU -----------------------------------------
+# M1: coniugazione regolare sul tema "mor-" (mora/morano per il cong.;
+#     il presente irregolare muoio/muori/muore/muoiono è gestito da MU
+#     e dalle voci piene nel .dic)
+SFX M1 Y 38
+SFX M1 ire a ire
+SFX M1 ire ano ire
+SFX M1 ire iamo ire
+SFX M1 ire ite ire
+SFX M1 ire iate ire
+SFX M1 ire ivo ire
+SFX M1 ire ivi ire
+SFX M1 ire iva ire
+SFX M1 ire ivamo ire
+SFX M1 ire ivate ire
+SFX M1 ire ivano ire
+SFX M1 ire ii ire
+SFX M1 ire isti ire
+SFX M1 ire ì ire
+SFX M1 ire immo ire
+SFX M1 ire iste ire
+SFX M1 ire irono ire
+SFX M1 ire issi ire
+SFX M1 ire isse ire
+SFX M1 ire issimo ire
+SFX M1 ire issero ire
+SFX M1 ire to/A1 ire
+SFX M1 ire ta/A1 ire
+SFX M1 ire ti/A1 ire
+SFX M1 ire te/A1 ire
+SFX M1 ire endo ire
+SFX M1 ire irò ire
+SFX M1 ire irai ire
+SFX M1 ire irà ire
+SFX M1 ire iremo ire
+SFX M1 ire irete ire
+SFX M1 ire iranno ire
+SFX M1 ire irei ire
+SFX M1 ire iresti ire
+SFX M1 ire irebbe ire
+SFX M1 ire iremmo ire
+SFX M1 ire ireste ire
+SFX M1 ire irebbero ire
+
+# MU: presente irregolare derivato dal lemma "muoio"
+SFX MU Y 3
+SFX MU io ri io
+SFX MU io re io
+SFX MU io iono io
+
+# --- salire/L1, assalire/L1, risalire/L1 ----------------------------
+SFX L1 Y 42
+SFX L1 ire i ire
+SFX L1 ire e ire
+SFX L1 ire go ire
+SFX L1 ire gono ire
+SFX L1 ire ga ire
+SFX L1 ire gano ire
+SFX L1 ire iamo ire
+SFX L1 ire ite ire
+SFX L1 ire iate ire
+SFX L1 ire ivo ire
+SFX L1 ire ivi ire
+SFX L1 ire iva ire
+SFX L1 ire ivamo ire
+SFX L1 ire ivate ire
+SFX L1 ire ivano ire
+SFX L1 ire ii ire
+SFX L1 ire isti ire
+SFX L1 ire ì ire
+SFX L1 ire immo ire
+SFX L1 ire iste ire
+SFX L1 ire irono ire
+SFX L1 ire issi ire
+SFX L1 ire isse ire
+SFX L1 ire issimo ire
+SFX L1 ire issero ire
+SFX L1 ire endo ire
+SFX L1 ire ito/A1 ire
+SFX L1 ire ita/A1 ire
+SFX L1 ire iti/A1 ire
+SFX L1 ire ite/A1 ire
+SFX L1 ire irò ire
+SFX L1 ire irai ire
+SFX L1 ire irà ire
+SFX L1 ire iremo ire
+SFX L1 ire irete ire
+SFX L1 ire iranno ire
+SFX L1 ire irei ire
+SFX L1 ire iresti ire
+SFX L1 ire irebbe ire
+SFX L1 ire iremmo ire
+SFX L1 ire ireste ire
+SFX L1 ire irebbero ire
+
+# --- rimanere/R1 ----------------------------------------------------
+SFX R1 Y 39
+SFX R1 ere i ere
+SFX R1 ere e ere
+SFX R1 ere iamo ere
+SFX R1 ere ete ere
+SFX R1 ere iate ere
+SFX R1 ere go ere
+SFX R1 ere gono ere
+SFX R1 ere ga ere
+SFX R1 ere gano ere
+SFX R1 ere evo ere
+SFX R1 ere evi ere
+SFX R1 ere eva ere
+SFX R1 ere evamo ere
+SFX R1 ere evate ere
+SFX R1 ere evano ere
+SFX R1 ere essi ere
+SFX R1 ere esse ere
+SFX R1 ere essimo ere
+SFX R1 ere essero ere
+SFX R1 ere endo ere
+SFX R1 nere si nere
+SFX R1 ere esti ere
+SFX R1 nere se nere
+SFX R1 nere nemmo nere
+SFX R1 nere neste nere
+SFX R1 nere sero nere
+SFX R1 nere sto/A1 nere
+SFX R1 nere rrò nere
+SFX R1 nere rrai nere
+SFX R1 nere rrà nere
+SFX R1 nere rremo nere
+SFX R1 nere rrete nere
+SFX R1 nere rranno nere
+SFX R1 nere rrei nere
+SFX R1 nere rresti nere
+SFX R1 nere rrebbe nere
+SFX R1 nere rremmo nere
+SFX R1 nere rreste nere
+SFX R1 nere rrebbero nere
+
+# --- udire/Y1  +  od/Y2 ---------------------------------------------
+SFX Y1 Y 36
+SFX Y1 ire iamo ire
+SFX Y1 ire ite ire
+SFX Y1 ire iate ire
+SFX Y1 ire ivo ire
+SFX Y1 ire ivi ire
+SFX Y1 ire iva ire
+SFX Y1 ire ivamo ire
+SFX Y1 ire ivate ire
+SFX Y1 ire ivano ire
+SFX Y1 ire ii ire
+SFX Y1 ire isti ire
+SFX Y1 ire ì ire
+SFX Y1 ire immo ire
+SFX Y1 ire iste ire
+SFX Y1 ire irono ire
+SFX Y1 ire issi ire
+SFX Y1 ire isse ire
+SFX Y1 ire issimo ire
+SFX Y1 ire issero ire
+SFX Y1 ire ito/A1 ire
+SFX Y1 ire ita/A1 ire
+SFX Y1 ire iti/A1 ire
+SFX Y1 ire ite/A1 ire
+SFX Y1 ire endo ire
+SFX Y1 ire irò ire
+SFX Y1 ire irai ire
+SFX Y1 ire irà ire
+SFX Y1 ire iremo ire
+SFX Y1 ire irete ire
+SFX Y1 ire iranno ire
+SFX Y1 ire irei ire
+SFX Y1 ire iresti ire
+SFX Y1 ire irebbe ire
+SFX Y1 ire iremmo ire
+SFX Y1 ire ireste ire
+SFX Y1 ire irebbero ire
+
+# Y2: presente dallo stem "od-"
+SFX Y2 Y 6
+SFX Y2 0 o .
+SFX Y2 0 i .
+SFX Y2 0 e .
+SFX Y2 0 ono .
+SFX Y2 0 a .
+SFX Y2 0 ano .
+
+# --- porre/O2, comporre/O2, disporre/O2, imporre/O2, supporre/O2 ----
+SFX O2 Y 39
+SFX O2 orre ongo orre
+SFX O2 orre ongono orre
+SFX O2 orre onga orre
+SFX O2 orre ongano orre
+SFX O2 orre oniamo orre
+SFX O2 orre oni orre
+SFX O2 orre one orre
+SFX O2 orre onete orre
+SFX O2 orre oniate orre
+SFX O2 orre onevo orre
+SFX O2 orre onevi orre
+SFX O2 orre oneva orre
+SFX O2 orre onevamo orre
+SFX O2 orre onevate orre
+SFX O2 orre onevano orre
+SFX O2 orre onendo orre
+SFX O2 orre onessi orre
+SFX O2 orre onesse orre
+SFX O2 orre onessimo orre
+SFX O2 orre onessero orre
+SFX O2 rre si rre
+SFX O2 rre nesti rre
+SFX O2 rre se rre
+SFX O2 rre nemmo rre
+SFX O2 rre neste rre
+SFX O2 rre sero rre
+SFX O2 rre sto/A1 rre
+SFX O2 rre rrò rre
+SFX O2 rre rrai rre
+SFX O2 rre rrà rre
+SFX O2 rre rremo rre
+SFX O2 rre rrete rre
+SFX O2 rre rranno rre
+SFX O2 rre rrei rre
+SFX O2 rre rresti rre
+SFX O2 rre rrebbe rre
+SFX O2 rre rremmo rre
+SFX O2 rre rreste rre
+SFX O2 rre rrebbero rre
+
+# --- condurre/U1, tradurre/U1, produrre/U1, ridurre/U1 ---------------
+SFX U1 Y 39
+SFX U1 urre uco urre
+SFX U1 urre uci urre
+SFX U1 urre uce urre
+SFX U1 urre ucono urre
+SFX U1 urre uciamo urre
+SFX U1 urre ucete urre
+SFX U1 urre uciate urre
+SFX U1 urre ucevo urre
+SFX U1 urre ucevi urre
+SFX U1 urre uceva urre
+SFX U1 urre ucevamo urre
+SFX U1 urre ucevate urre
+SFX U1 urre ucevano urre
+SFX U1 urre ussi urre
+SFX U1 urre ucesti urre
+SFX U1 urre usse urre
+SFX U1 urre ucemmo urre
+SFX U1 urre uceste urre
+SFX U1 urre ussero urre
+SFX U1 urre uca urre
+SFX U1 urre ucano urre
+SFX U1 urre ucendo urre
+SFX U1 urre otto/A1 urre
+SFX U1 e ò e
+SFX U1 e ai e
+SFX U1 e à e
+SFX U1 e emo e
+SFX U1 e ete e
+SFX U1 e anno e
+SFX U1 e ei e
+SFX U1 e esti e
+SFX U1 e ebbe e
+SFX U1 e emmo e
+SFX U1 e este e
+SFX U1 e ebbero e
+SFX U1 e essi e
+SFX U1 e esse e
+SFX U1 e essimo e
+SFX U1 e esero e
+
+# --- trarre/Z1, attrarre/Z1, distrarre/Z1, sottrarre/Z1 -------------
+SFX Z1 Y 39
+SFX Z1 rre ggo rre
+SFX Z1 rre i rre
+SFX Z1 rre e rre
+SFX Z1 rre ggono rre
+SFX Z1 rre ete rre
+SFX Z1 rre iamo rre
+SFX Z1 rre iate rre
+SFX Z1 rre evo rre
+SFX Z1 rre evi rre
+SFX Z1 rre eva rre
+SFX Z1 rre evamo rre
+SFX Z1 rre evate rre
+SFX Z1 rre evano rre
+SFX Z1 rre gga rre
+SFX Z1 rre ggano rre
+SFX Z1 rre ssi rre
+SFX Z1 rre esti rre
+SFX Z1 rre sse rre
+SFX Z1 rre emmo rre
+SFX Z1 rre este rre
+SFX Z1 rre ssero rre
+SFX Z1 rre essi rre
+SFX Z1 rre esse rre
+SFX Z1 rre essimo rre
+SFX Z1 rre esero rre
+SFX Z1 rre tto/A1 rre
+SFX Z1 rre endo rre
+SFX Z1 rre rrò rre
+SFX Z1 rre rrai rre
+SFX Z1 rre rrà rre
+SFX Z1 rre rremo rre
+SFX Z1 rre rrete rre
+SFX Z1 rre rranno rre
+SFX Z1 rre rrei rre
+SFX Z1 rre rresti rre
+SFX Z1 rre rrebbe rre
+SFX Z1 rre rremmo rre
+SFX Z1 rre rreste rre
+SFX Z1 rre rrebbero rre
+
+# --- piacere/Q1, tacere/Q1, giacere/Q1 ------------------------------
+SFX Q1 Y 40
+SFX Q1 ere cio ere
+SFX Q1 ere i ere
+SFX Q1 ere e ere
+SFX Q1 ere ciono ere
+SFX Q1 ere ciamo ere
+SFX Q1 ere ete ere
+SFX Q1 ere iate ere
+SFX Q1 ere cia ere
+SFX Q1 ere ciate ere
+SFX Q1 ere ciano ere
+SFX Q1 ere evo ere
+SFX Q1 ere evi ere
+SFX Q1 ere eva ere
+SFX Q1 ere evamo ere
+SFX Q1 ere evate ere
+SFX Q1 ere evano ere
+SFX Q1 ere qui ere
+SFX Q1 ere esti ere
+SFX Q1 ere que ere
+SFX Q1 ere emmo ere
+SFX Q1 ere este ere
+SFX Q1 ere quero ere
+SFX Q1 ere iuto/A1 ere
+SFX Q1 ere endo ere
+SFX Q1 ere erò ere
+SFX Q1 ere erai ere
+SFX Q1 ere erà ere
+SFX Q1 ere eremo ere
+SFX Q1 ere erete ere
+SFX Q1 ere eranno ere
+SFX Q1 ere erei ere
+SFX Q1 ere eresti ere
+SFX Q1 ere erebbe ere
+SFX Q1 ere eremmo ere
+SFX Q1 ere ereste ere
+SFX Q1 ere erebbero ere
+SFX Q1 ere essi ere
+SFX Q1 ere esse ere
+SFX Q1 ere essimo ere
+SFX Q1 ere essero ere
+
+# --- vincere/R2 (remoti e participi irregolari enumerati nel .dic) --
+SFX R2 Y 35
+SFX R2 ere o ere
+SFX R2 ere i ere
+SFX R2 ere e ere
+SFX R2 ere iamo ere
+SFX R2 ere ete ere
+SFX R2 ere ono ere
+SFX R2 ere a ere
+SFX R2 ere iate ere
+SFX R2 ere ano ere
+SFX R2 ere evo ere
+SFX R2 ere evi ere
+SFX R2 ere eva ere
+SFX R2 ere evamo ere
+SFX R2 ere evate ere
+SFX R2 ere evano ere
+SFX R2 ere esti ere
+SFX R2 ere emmo ere
+SFX R2 ere este ere
+SFX R2 ere erò ere
+SFX R2 ere erai ere
+SFX R2 ere erà ere
+SFX R2 ere eremo ere
+SFX R2 ere erete ere
+SFX R2 ere eranno ere
+SFX R2 ere erei ere
+SFX R2 ere eresti ere
+SFX R2 ere erebbe ere
+SFX R2 ere eremmo ere
+SFX R2 ere ereste ere
+SFX R2 ere erebbero ere
+SFX R2 ere essi ere
+SFX R2 ere esse ere
+SFX R2 ere essimo ere
+SFX R2 ere essero ere
+SFX R2 ere endo ere
+
+# --- aprire/G1 (partic. aperto) -------------------------------------
+SFX G1 Y 39
+SFX G1 ire o ire
+SFX G1 ire i ire
+SFX G1 ire e ire
+SFX G1 ire iamo ire
+SFX G1 ire ite ire
+SFX G1 ire ono ire
+SFX G1 ire a ire
+SFX G1 ire iate ire
+SFX G1 ire ano ire
+SFX G1 ire ivo ire
+SFX G1 ire ivi ire
+SFX G1 ire iva ire
+SFX G1 ire ivamo ire
+SFX G1 ire ivate ire
+SFX G1 ire ivano ire
+SFX G1 ire ii ire
+SFX G1 ire isti ire
+SFX G1 ire ì ire
+SFX G1 ire immo ire
+SFX G1 ire iste ire
+SFX G1 ire irono ire
+SFX G1 ire issi ire
+SFX G1 ire isse ire
+SFX G1 ire issimo ire
+SFX G1 ire issero ire
+SFX G1 ire endo ire
+SFX G1 ire irò ire
+SFX G1 ire irai ire
+SFX G1 ire irà ire
+SFX G1 ire iremo ire
+SFX G1 ire irete ire
+SFX G1 ire iranno ire
+SFX G1 ire irei ire
+SFX G1 ire iresti ire
+SFX G1 ire irebbe ire
+SFX G1 ire iremmo ire
+SFX G1 ire ireste ire
+SFX G1 ire irebbero ire
+SFX G1 rire erto/A1 rire
+
+# =====================================================================
+# 5. ALTERATI  (concatenare dopo il flag del nome: gatto/NOIN)
+# =====================================================================
+
+# -ino/-ina : gatto -> gattino/gattina/gattini/gattine
+SFX IN Y 8
+SFX IN o ino o
+SFX IN o ini o
+SFX IN o ina o
+SFX IN o ine o
+SFX IN a ino a
+SFX IN a ini a
+SFX IN a ina a
+SFX IN a ine a
+
+# -etto/-etta : libro -> libretto/libretti/libretta/librette
+SFX ET Y 8
+SFX ET o etto o
+SFX ET o etti o
+SFX ET o etta o
+SFX ET o ette o
+SFX ET a etto a
+SFX ET a etti a
+SFX ET a etta a
+SFX ET a ette a
+
+# -ello/-ella : albero -> alberello/alberelli/alberella/alberelle
+SFX EL Y 8
+SFX EL o ello o
+SFX EL o elli o
+SFX EL o ella o
+SFX EL o elle o
+SFX EL a ello a
+SFX EL a elli a
+SFX EL a ella a
+SFX EL a elle a
+
+# -one/-ona (accrescitivo)
+SFX ON Y 5
+SFX ON o one o
+SFX ON o oni o
+SFX ON o ona o
+SFX ON a ona a
+SFX ON a one a
+
+# -accio/-accia : parola -> parolaccia/parolacce
+SFX AC Y 6
+SFX AC o accio o
+SFX AC o acci o
+SFX AC o accia o
+SFX AC o acce o
+SFX AC a accia a
+SFX AC a acce a
+
+# -uccio/-uccia : casa -> casuccia/casucce
+SFX UC Y 6
+SFX UC o uccio o
+SFX UC o ucci o
+SFX UC o uccia o
+SFX UC o ucce o
+SFX UC a uccia a
+SFX UC a ucce a
+
+# -ozzo/-ozza : cosa -> cosozza/cosozze
+SFX OZ Y 6
+SFX OZ o ozzo o
+SFX OZ o ozzi o
+SFX OZ o ozza o
+SFX OZ o ozze o
+SFX OZ a ozza a
+SFX OZ a ozze a
+
+# -astro/-astra : fratello -> fratellastro/fratellastri/fratellastre
+SFX AS Y 6
+SFX AS o astro o
+SFX AS o astri o
+SFX AS o astra o
+SFX AS o astre o
+SFX AS a astra a
+SFX AS a astre a
+
+# alterati partendo dal plurale "baci": baci -> bacetto/bacetti...
+SFX BT Y 4
+SFX BT i etto i
+SFX BT i etti i
+SFX BT i etta i
+SFX BT i ette i
+
+# =====================================================================
+# 6. PREFISSI
+# =====================================================================
+
+# articoli preposti con elisione (l', all', dell', dall', nell', sull', coll')
+PFX DX Y 8
+PFX DX 0 l' [aeiouàèéìòùh]
+PFX DX 0 all' [aeiouàèéìòùh]
+PFX DX 0 dell' [aeiouàèéìòùh]
+PFX DX 0 dall' [aeiouàèéìòùh]
+PFX DX 0 nell' [aeiouàèéìòùh]
+PFX DX 0 sull' [aeiouàèéìòùh]
+PFX DX 0 coll' [aeiouàèéìòùh]
+PFX DX 0 d' [aeiouàèéìòùh]
+
+# un' (art. femminile davanti a vocale)
+PFX DU Y 1
+PFX DU 0 un' [aeiouàèéìòùh]
+
+# ri- (iterativo) su verbi regolari
+PFX PR Y 1
+PFX PR 0 ri/V1V2V3VIVAVBVC .
+
+# s- (privativo/inespansivo) — NB: su verbi può sovragenerare
+PFX PS Y 2
+PFX PS 0 s/V1V2V3VIVAVBVC .
+PFX PS 0 s/A1A2 .
+
+# dis- — NB: su verbi può sovragenerare
+PFX PD Y 1
+PFX PD 0 dis/A1A2V1V2V3VIVAVBVC .
+
+# in-/im-/il-/ir- (negazione) su aggettivi
+PFX PI Y 4
+PFX PI 0 im/A1A2 [pb]
+PFX PI 0 il/A1A2 l
+PFX PI 0 ir/A1A2 r
+PFX PI 0 in/A1A2 [^pblr]
+
+# anti-
+PFX PA Y 1
+PFX PA 0 anti/NONAMANEA1A2 .
+
+# co-/con-
+PFX PC Y 2
+PFX PC 0 co/NONAMANEA1A2 .
+PFX PC 0 con/V1V2V3VIVAVBVC .
+
+# pre-
+PFX PE Y 1
+PFX PE 0 pre/NONAMANEA1A2V1V2V3VIVAVBVC .
+
+# super-
+PFX PF Y 1
+PFX PF 0 super/NONAMANEA1A2 .
+
+# sotto-
+PFX PG Y 1
+PFX PG 0 sotto/V1V2V3VIVAVBVC .
+
+# contr-/contro-
+PFX PH Y 2
+PFX PH 0 contr [aeiou]
+PFX PH 0 contro [^aeiou]
+
+# extra-/ultra-/iper-/ipo-/inter-
+PFX PJ Y 5
+PFX PJ 0 extra/NONAMANEA1A2 .
+PFX PJ 0 ultra/NONAMANEA1A2 .
+PFX PJ 0 iper/NONAMANEA1A2 .
+PFX PJ 0 ipo/NONAMANEA1A2 .
+PFX PJ 0 inter/A1A2NONAMANE .
